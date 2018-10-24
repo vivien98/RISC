@@ -124,7 +124,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity shifter is
-	port(clk,shift,wr: in std_logic ;writeData : in std_logic_vector(7 downto 0);data : out std_logic_vector(7 downto 0);bit1: out std_logic);
+	port(clk,shift,wr: in std_logic ;writeData : in std_logic_vector(7 downto 0);bit1: out std_logic);
 end entity;
 architecture kahipan of shifter is
 signal data1,data2 : std_logic_vector(7 downto 0);
@@ -137,12 +137,14 @@ store: process (clk,shift,wr) is
 		data1 <= writeData ;
 		end if;
 		if(shift = '1')then
-			data1(7 downto 1) <= data1(6 downto 0);
-			data1(0) <= '0';
+			data1(6 downto 0) <= data1(7 downto 1);
+			data1(7) <= '0';
 		end if;
 	end if;	
 end process store;
-data <= data1;
+
+bit1 <= data1(7);
+
 end kahipan;
 
 
