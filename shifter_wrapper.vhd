@@ -32,8 +32,8 @@ shift <= state(3) and state(2) and (not state(1)) and (not state(0)) ;
 	(clk        =>   clk           ,
 	 shift      =>   shift         ,
 	 wr         =>   wr            , 
-	 writeData  =>   writeData1    ,
-	 bit1       =>   ir(7 downto 0)       );
+	 writeData  =>   ir(7 downto 0)     ,
+	 bit1       =>   shw_out     );
 
 
  
