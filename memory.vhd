@@ -40,7 +40,7 @@ begin
 			when X"0009" =>  membr1 <= m18 ; membr2 <= m19;
 			when others =>   membr1 <= x"00"; membr2 <= x"00";
 		end case;
-	else 
+	elsif rising_edge(clk) and wr='1'then 
 		case mema is
 			when x"0000" =>  m0 <= membw1; m1 <= membw2;
 			when x"0001" =>  m2 <= membw1; m3 <= membw2; 
