@@ -20,7 +20,7 @@ entity shift_wrapper is
 	port(clk,shift,wr: in std_logic ;writeData : in std_logic_vector(7 downto 0);bit1: out std_logic);
 end component;
 
-  signal shw_control,shift,wr: std_logic;
+  signal shift,wr: std_logic;
 
   begin
 
