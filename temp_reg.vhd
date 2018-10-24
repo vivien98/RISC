@@ -10,7 +10,7 @@ entity t1 is
 	   membw1      : in  std_logic_vector(7 downto 0);
 	   membw2      : in  std_logic_vector(7 downto 0);
 	   alu_out     : in  std_logic_vector(15 downto 0);
-	   t1_out     : out  std_logic_vector(15 downto 0)
+	   t1_out     : out  std_logic_vecto2(15 downto 0)
 
      );
 		
@@ -42,6 +42,52 @@ t1out:process(t1_control,alu_out,rf_d1,membw2,membw1)
  end process t1out;
  
   end architecture behave;
+  
+  
+  entity t2 is
+    
+    port (
+	   state     : in  std_logic_vector(4 downto 0);
+	   rf_d1      : in  std_logic_vector(15 downto 0);
+	   membw1      : in  std_logic_vector(7 downto 0);
+	   membw2      : in  std_logic_vector(7 downto 0);
+	   alu_out     : in  std_logic_vector(15 downto 0);
+	   t2_out     : out  std_logic_vector(15 downto 0)
+
+     );
+		
+  end entity ;
+  
+  architecture behave of t2 is
+
+  signal t2_control: std_logic_vector(1 downto 0);
+  signal t2_out1: std_logic_vector(15 downto 0);
+
+  begin
+
+  t2_control(0) <= (state(4)) or (state(0) and state(1)) or 
+           ((not state(0)) and state(2)) or (state(3) and state(1)) or ((not state(2)) and (not state(3)) and state(0));
+			  
+  t2_control(1) <= (state(4)) or ((not state(1)) or (not state(2))) or 
+                   ((not state(1)) and (not state(0))) or (state(2) and state(1)) or ((not state(2)) and state(3));
+  
+t2_out <= t2_out1;
+
+t2out:process(t1_control,alu_out,rf_d1,membw2,membw1)
+ begin
+	 case t2_control is
+		when "00" =>  t2_out1 <= rf_d1;
+		when "01" =>  t2_out1 <= alu_out;
+		when "10" =>  t2_out1(15 downto 8) <= membw1; t2_out1(7 downto 0) <= membw2;
+		when others =>  t2_out1 <= t2_out1;
+	 end case;
+ end process t2out;
+ 
+  end architecture behave;
+  
+  
+  
+  
   
   
   
