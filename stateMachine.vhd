@@ -111,7 +111,7 @@ architecture kahipan of stateReg is
 
 begin
 load: process (clk,nextState) begin
-	if(clk'event and clk = '1')then
+	if(rising_edge(clk))then
 		state <= nextState;
 	end if;
 end process load;
