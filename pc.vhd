@@ -29,7 +29,7 @@ entity pc is
   
 pc_out <= pc_out1;
 
-pcout:process(clk,pc_control,alu_out,t2)
+pcout:process(clk,pc_control)
  begin
  if rising_edge(clk) then
 	 case pc_control is

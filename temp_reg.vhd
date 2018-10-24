@@ -32,7 +32,7 @@ entity t1 is
   
 t1_out <= t1_out1;
 
-t1out:process(clk,t1_control,alu_out,rf_d1,membw2,membw1)
+t1out:process(clk,t1_control)
  begin
  if rising_edge(clk) then
 	 case t1_control is
@@ -83,7 +83,7 @@ use ieee.numeric_std.all;
                    ((not state(1)) and (not state(3))) or ((not state(1)) and (not state(2))) or (state(3) and state(1));
   
 t2_out <= t2_out1;
-t2out:process(clk,t2_control,alu_out,rf_d1,rf_d2,se6_out)
+t2out:process(clk,t2_control)
  begin
  if rising_edge(clk) then
 	 case t2_control is
@@ -125,7 +125,7 @@ entity t3 is
 t3_control <= state(3) and (not state(2)) and state(1) ;
 t3_out <= t3_out1;
 
-t3out:process(clk,t3_control,alu_out)
+t3out:process(clk,t3_control)
  begin
  if rising_edge(clk) then
 	 case t3_control is

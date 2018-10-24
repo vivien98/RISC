@@ -24,7 +24,7 @@ entity ir is
 ir_control <= (not state(4)) and (not state(3)) and (not state(2)) and (not state(1)) ;
 ir_out <= ir_out1;
 
-irout:process(ir_control,membw1,membw2)
+irout:process(ir_control)
  begin
 	 case ir_control is
 		when '1' =>  ir_out1(15 downto 8) <= membw1; ir_out1(7 downto 0) <= membw2;
