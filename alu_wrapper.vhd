@@ -40,7 +40,7 @@ A(1) <= (not state(3)) or (state(2) and state(0));
 A(0) <= (not state(2)) and state(1);
 
 B(0) <= (state(2)) or ((not state(4)) and (not state(1)));
-B(1) <= ((not state(4)) and (not state(3))) and ((not state(4)) and (not state(1)));
+B(1) <= ((not state(4)) and (not state(3))) or ((not state(4)) and (not state(1)));
 B(2) <= (not state(2)) and state(3);
 
 carry_control <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
