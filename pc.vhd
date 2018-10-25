@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity pc is
     
     port (
+		clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out      : in  std_logic_vector(15 downto 0);
 	   t2      : in  std_logic_vector(15 downto 0);
@@ -28,13 +29,15 @@ entity pc is
   
 pc_out <= pc_out1;
 
-pcout:process(pc_control,alu_out,t2)
+pcout:process(clk,pc_control)
  begin
+ if rising_edge(clk) then
 	 case pc_control is
 		when "00" =>  pc_out1 <= alu_out;
 		when "01" =>  pc_out1 <= t2;
 		when others =>  pc_out1 <= pc_out1;
 	 end case;
+	end if;
  end process pcout;
 
   

@@ -28,7 +28,7 @@ entity reg_file is
  begin
  
  
- rfa1:process(rf_a1,r0,r1,r2,r3,r4,r5,r6,r7)
+ rfa1:process(rf_a1)
  begin
 	 case rf_a1 is
 		when "000" =>  rf_d1 <= r0;
@@ -45,7 +45,7 @@ entity reg_file is
  end process rfa1;
  
  
-  rfa2:process(rf_a2,r0,r1,r2,r3,r4,r5,r6,r7)
+  rfa2:process(rf_a2)
  begin
 	 case rf_a2 is
 		when "000" =>  rf_d2 <= r0;
@@ -62,7 +62,7 @@ entity reg_file is
  
  
  
- writing: process(clk,wr,rf_a3,rf_d3,r0,r1,r2,r3,r4,r5,r6,r7)
+ writing: process(clk,wr,rf_a3)
  begin
 	if rising_edge(clk) then
 		if (wr ='1') then 
@@ -145,7 +145,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
 
 
 
- rrfa1:process(S,ir,t3)
+ rrfa1:process(S)
  begin
 	 case S is
 		when '0' =>  rf_a1 <= ir(8 downto 6);
@@ -153,7 +153,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
 	 end case;
  end process rrfa1;
 
- rrfa2:process(P,ir)
+ rrfa2:process(P)
  begin
 	 case P is
 		when '0' =>  rf_a2 <= ir(11 downto 9);
@@ -162,7 +162,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
  end process rrfa2;
 	
 
- rrfa3:process(Q,ir,t3)
+ rrfa3:process(Q)
  begin
 	 case Q is
 		when '0' =>  rf_a3 <= ir(11 downto 9);
@@ -170,7 +170,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
 	 end case;
  end process rrfa3;
 
- rrfd3:process(R,app7,t1,pc)
+ rrfd3:process(R)
  begin
 	 case R is
 		when "00" =>  rf_d3 <= pc;

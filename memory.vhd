@@ -24,7 +24,7 @@ signal m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19,m20
 
 begin
 
- mem_access:process(wr,mema,m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19)
+ mem_access:process(wr,mema)
  begin
  	if(wr='0') then
 		case mema is
@@ -40,7 +40,7 @@ begin
 			when X"0009" =>  membr1 <= m18 ; membr2 <= m19;
 			when others =>   membr1 <= x"00"; membr2 <= x"00";
 		end case;
-	else 
+	elsif rising_edge(clk) and wr='1'then 
 		case mema is
 			when x"0000" =>  m0 <= membw1; m1 <= membw2;
 			when x"0001" =>  m2 <= membw1; m3 <= membw2; 
@@ -118,7 +118,7 @@ X(1)	<= ((not state(4)) and state(3) and (not state(2)) and (not state(1)) and s
 
 Y	<= (not state(4)) and state(3) and state(2) and state(1) and (not state(0)); 
 
- membb:process(Y,t1,t2)
+ membb:process(Y)
  begin
 	 case Y is
 		when '0' =>  membw1 <= t2(15 downto 8); membw2 <= t2(7 downto 0);
@@ -127,7 +127,7 @@ Y	<= (not state(4)) and state(3) and state(2) and state(1) and (not state(0));
  end process membb;
 
 
- memaa:process(X,pc,t1,t2)
+ memaa:process(X)
  begin
 	 case X is
 		when "00" =>  mema <= pc;
