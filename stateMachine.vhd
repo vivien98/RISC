@@ -112,13 +112,16 @@ entity stateReg is
 	port(clk: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
 end entity;
 architecture kahipan of stateReg is
-
+signal state1:std_logic_vector(4 downto 0):= "00001";
 begin
+
 load: process (clk,nextState) begin
+
 	if(rising_edge(clk))then
-		state <= nextState;
+		state1 <= nextState;
 	end if;
 end process load;
+state <= state1;
 end kahipan;
 
 

@@ -73,6 +73,7 @@ use ieee.numeric_std.all;
   component ir is
     
     port (
+	 clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   membr1     : in  std_logic_vector(7 downto 0);
 		membr2     : in  std_logic_vector(7 downto 0);
@@ -249,6 +250,7 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
   irr :ir 
     
     port map (
+	 clk        => clk1,
 	   state    =>  state,
 	   membr1    => membr1,
 		membr2   => membr2,

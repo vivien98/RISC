@@ -27,7 +27,7 @@ entity t1 is
   t1_control(0) <= (state(4)) or (state(0) and state(1)) or 
            ((not state(0)) and state(2)) or (state(3) and state(1)) or ((not state(2)) and (not state(3)) and state(0));
 			  
-  t1_control(1) <= (state(4)) or ((not state(1)) or (not state(2))) or 
+  t1_control(1) <= (state(4)) or ((not state(1)) and (not state(2))) or 
                    ((not state(1)) and (not state(0))) or (state(2) and state(1)) or ((not state(2)) and state(3));
   
 t1_out <= t1_out1;

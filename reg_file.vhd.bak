@@ -30,56 +30,38 @@ entity reg_file is
  begin
  
  
- --rfa1:process(rf_a1,r0,r1,r2,r3,r4,r5,r6,r7)
- --begin
-	-- case rf_a1 is
-	--	when "000" =>  rf_d1 <= r0;
-	--	when "001" =>  rf_d1 <= r1;
-	--	when "010" =>  rf_d1 <= r2;
-	--	when "011" =>  rf_d1 <= r3;
-	--	when "100" =>  rf_d1 <= r4;
-	--	when "101" =>  rf_d1 <= r5;
-	--	when "110" =>  rf_d1 <= r6;
-	--	when others =>  rf_d1 <= r7;
+ rfa1:process(rf_a1)
+ begin
+	 case rf_a1 is
+		when "000" =>  rf_d1 <= r0;
+		when "001" =>  rf_d1 <= r1;
+		when "010" =>  rf_d1 <= r2;
+		when "011" =>  rf_d1 <= r3;
+		when "100" =>  rf_d1 <= r4;
+		when "101" =>  rf_d1 <= r5;
+		when "110" =>  rf_d1 <= r6;
+		when others =>  rf_d1 <= r7;
 		
-	-- end case;
+	 end case;
  
- --end process rfa1;
-
-  rf_d1 <= 
-     r0 when rf_a1 = "000" else 
-     r1 when rf_a1 = "001" else 
-     r2  when rf_a1 = "010" else 
-     r3 when rf_a1 = "011" else
-     r4 when rf_a1 = "100" else
-     r5 when rf_a1 = "101" else
-     r6 when rf_a1 = "110" else
-	 r7 when rf_a1 ="111";
+ end process rfa1;
  
  
- -- rfa2:process(rf_a2,r0,r1,r2,r3,r4,r5,r6,r7)
- --begin
-	-- case rf_a2 is
-	--	when "000" =>  rf_d2 <= r0;
-	--	when "001" =>  rf_d2 <= r1;
-	--	when "010" =>  rf_d2 <= r2;
-	--	when "011" =>  rf_d2 <= r3;
-	--	when "100" =>  rf_d2 <= r4;
-	--	when "101" =>  rf_d2 <= r5;
-	--	when "110" =>  rf_d2 <= r6;
-	--	when others =>  rf_d2 <= r7;
-	-- end case;
- --end process rfa2;
-
-  rf_d2 <= 
-     r0 when rf_a2 = "000" else 
-     r1 when rf_a2 = "001" else 
-     r2  when rf_a2 = "010" else 
-     r3 when rf_a2 = "011" else
-     r4 when rf_a2 = "100" else
-     r5 when rf_a2 = "101" else
-     r6 when rf_a2 = "110" else
-	 r7 when rf_a2 ="111";
+  rfa2:process(rf_a2)
+ begin
+	 case rf_a2 is
+		when "000" =>  rf_d2 <= r0;
+		when "001" =>  rf_d2 <= r1;
+		when "010" =>  rf_d2 <= r2;
+		when "011" =>  rf_d2 <= r3;
+		when "100" =>  rf_d2 <= r4;
+		when "101" =>  rf_d2 <= r5;
+		when "110" =>  rf_d2 <= r6;
+		when others =>  rf_d2 <= r7;
+	 end case;
+ end process rfa2;
+ 
+ 
  
  
  writing: process(clk,wr,rf_a3)
@@ -164,56 +146,40 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
        (state(4) and (not state(3)) and (not state(2)) and (not state(1)) and state(0)) ;
 
 
---rrfa1:process(S,ir,t3)
---begin
---	 case S is
---		when '0' =>  rf_a1 <= ir(8 downto 6);
---		when others =>  rf_a1 <= t3(2 downto 0);
---	 end case;
---end process rrfa1;
 
-  rf_a1 <= 
-     ir(8 downto 6) when s = '0' else 
-     t3(2 downto 0) when s = '1' ;
+ rrfa1:process(S)
+ begin
+	 case S is
+		when '0' =>  rf_a1 <= ir(8 downto 6);
+		when others =>  rf_a1 <= t3(2 downto 0);
+	 end case;
+ end process rrfa1;
 
---rrfa2:process(P,ir)
---begin
---	 case P is
---		when '0' =>  rf_a2 <= ir(11 downto 9);
---		when others =>  rf_a2 <= ir(5 downto 3);
---	 end case;
---end process rrfa2;
-
-  rf_a2 <= 
-     ir(11 downto 9) when p = '0' else 
-     ir(5 downto 3) when p = '1' ;
+ rrfa2:process(P)
+ begin
+	 case P is
+		when '0' =>  rf_a2 <= ir(11 downto 9);
+		when others =>  rf_a2 <= ir(5 downto 3);
+	 end case;
+ end process rrfa2;
 	
 
--- rrfa3:process(Q,ir,t3)
--- begin
---	 case Q is
---		when '0' =>  rf_a3 <= ir(11 downto 9);
---		when others =>  rf_a3 <= t3(2 downto 0);
---	 end case;
--- end process rrfa3;
+ rrfa3:process(Q)
+ begin
+	 case Q is
+		when '0' =>  rf_a3 <= ir(11 downto 9);
+		when others =>  rf_a3 <= t3(2 downto 0);
+	 end case;
+ end process rrfa3;
 
-  rf_a3 <= 
-     ir(11 downto 9) when q = '0' else 
-     t3(2 downto 0) when q = '1' ;
-
--- rrfd3:process(R,pc,t1,app7)
--- begin
---	 case R is
---		when "00" =>  rf_d3 <= pc;
---		when "01" =>  rf_d3 <= t1;
---		when others =>  rf_d3 <= app7;
---	 end case;
--- end process rrfd3;
-
-  rf_d3 <= 
-     pc when r = "00" else 
-     t1 when r = "01" else
-     app7 when r = "10" ;
+ rrfd3:process(R)
+ begin
+	 case R is
+		when "00" =>  rf_d3 <= pc;
+		when "01" =>  rf_d3 <= t1;
+		when others =>  rf_d3 <= app7;
+	 end case;
+ end process rrfd3;
 
  reg_wrap: reg_file
     

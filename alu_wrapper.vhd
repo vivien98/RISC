@@ -27,7 +27,7 @@ entity alu_wrapper is
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 
-  signal carry_control,zero_control,carry1,zero1: std_logic;
+  signal carry_control,zero_control,carry1,zero1,carry2,zero2: std_logic;
   signal xin,yin: std_logic_vector(15 downto 0);
   signal o,A: std_logic_vector(1 downto 0);
   signal B: std_logic_vector(2 downto 0);
@@ -49,40 +49,61 @@ o(1) <= ((not ir(15)) and (not ir(14)) and ir(13) and (not ir(12)));
 o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12))) or 
         ((not (ir(15) and ir(14) and (not ir(13)) and (not ir(12)))) and (not state(2)) and state(3));
 
-xinn:process(A)
- begin
-	 case A is
-		when "00" =>  xin <= t2;
-		when "01" =>  xin <= t3;
-		when "10" =>  xin <= pc; 
-		when others =>  xin <= t1;
-	 end case;
- end process xinn;
+ carry <= carry2;
+ zero <= zero2;
 
- yinn:process(B)
- begin
-	 case B is
-		when "000" =>  yin <= se9_out;
-		when "001" =>  yin <= se6_out;
-		when "010" =>  yin <= t2; 
-		when "011" =>  yin <= X"0001"; 
-		when others =>  yin <= X"0001";
-	 end case;
- end process yinn;
+--xinn:process(A,t1,t2,t3,pc)
+-- begin
+--	 case A is
+--		when "00" =>  xin <= t2;
+--		when "01" =>  xin <= t3;
+--		when "10" =>  xin <= pc; 
+--		when others =>  xin <= t1;
+--	 end case;
+-- end process xinn;
+ 
+ xin <= t2 when a = "00" else 
+     t3 when a = "01" else 
+     pc when a = "10" else 
+     t1 when a = "11";
 
- carry11: process(carry_control)
- begin
- 	if(carry_control='1') then
- 		carry <= carry1;
- 	end if;
- end process carry11;
 
- zero11: process(zero_control)
- begin
- 	if(zero_control='1') then
- 		zero <= zero1;
- 	end if;
- end process zero11;
+-- yinn:process(B)
+-- begin
+--	 case B is
+--		when "000" =>  yin <= se9_out;
+--		when "001" =>  yin <= se6_out;
+--		when "010" =>  yin <= t2; 
+--		when "011" =>  yin <= X"0001"; 
+--		when others =>  yin <= X"0001";
+--	 end case;
+-- end process yinn;
+
+ yin <= se9_out when b = "000" else 
+     se6_out when b = "001" else 
+     t2 when b = "010" else 
+     X"0001" when b = "011" else
+	  X"0001" when b = "100";
+
+ --carry11: process(carry_control)
+ --begin
+ --	if(carry_control='1') then
+ --		carry <= carry1;
+ --	end if;
+ --end process carry11;
+
+  carry2 <= (carry_control and carry1) or ((not carry_control) and carry2);
+
+
+
+ --zero11: process(zero_control)
+ --begin
+ --	if(zero_control='1') then
+ --		zero <= zero1;
+ --	end if;
+ --end process zero11;
+
+ zero2 <= (zero_control and zero1) or ((not zero_control) and zero2);
  
  
 
