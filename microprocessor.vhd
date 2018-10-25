@@ -184,7 +184,7 @@ end component;
 signal pc_out,t1_out,t2_out,t3_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state: std_logic_vector(4 downto 0);
-signal carry,zero,bit1,rst: std_logic;
+signal carry,zero,bit1,bit0,shift,rst: std_logic;
 
 begin
  
