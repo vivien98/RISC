@@ -213,7 +213,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
   rf_d3 <= 
      pc when r = "00" else 
      t1 when r = "01" else
-     app7 when r = "10" ;
+     app7 when r = "10" or r = "11";
 
  reg_wrap: reg_file
     
