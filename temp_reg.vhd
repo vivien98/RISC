@@ -90,7 +90,7 @@ t2out:process(clk,t2_control)
 		when "000" =>  t2_out1 <= rf_d1;
 		when "001" =>  t2_out1 <= rf_d2;
 		when "010" =>  t2_out1 <= alu_out;
-		when "011" =>  t2_out1 <= se6_out;
+		when "100" =>  t2_out1 <= se6_out;
 		when others =>  t2_out1 <= t2_out1;
 	 end case;
 end if;
