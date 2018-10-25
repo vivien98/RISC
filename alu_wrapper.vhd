@@ -13,7 +13,9 @@ entity alu_wrapper is
 		t3         : in  std_logic_vector(15 downto 0);
 		se6_out    : in  std_logic_vector(15 downto 0);
 		se9_out    : in  std_logic_vector(15 downto 0);
-	   alu_out     : out  std_logic_vector(15 downto 0)
+	   alu_out     : out  std_logic_vector(15 downto 0);
+		carry       : out std_logic;
+		zero        : out std_logic
 
      );
 		
@@ -25,13 +27,13 @@ entity alu_wrapper is
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 
-  signal carry,zero: std_logic;
+  signal carry_control,zero_control,carry1,zero1: std_logic;
   signal xin,yin: std_logic_vector(15 downto 0);
   signal o,A: std_logic_vector(1 downto 0);
   signal B: std_logic_vector(2 downto 0);
   begin
 
-zero <= ((not state(4)) and (not state(2)) and (not state(1)) and (not state(0))) or 
+zero_control <= ((not state(4)) and (not state(2)) and (not state(1)) and (not state(0))) or 
 		((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0)) ;
 
 A(1) <= (not state(3)) or (state(2) and state(0));
@@ -41,7 +43,7 @@ B(0) <= (state(2)) or ((not state(4)) and (not state(1)));
 B(1) <= ((not state(4)) and (not state(3))) and ((not state(4)) and (not state(1)));
 B(2) <= (not state(2)) and state(3);
 
-carry <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
+carry_control <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
 
 o(1) <= ((not ir(15)) and (not ir(14)) and ir(13) and (not ir(12)));
 o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12))) or 
@@ -68,6 +70,22 @@ xinn:process(A)
 	 end case;
  end process yinn;
 
+ carry11: process(carry_control)
+ begin
+ 	if(carry_control='1') then
+ 		carry <= carry1;
+ 	end if;
+ end process carry11;
+
+ zero11: process(zero_control)
+ begin
+ 	if(zero_control='1') then
+ 		zero <= zero1;
+ 	end if;
+ end process zero11;
+ 
+ 
+
 aluop: alu 
 	port map
 	(xin      =>   xin,           
@@ -75,8 +93,8 @@ aluop: alu
 	 m0       =>  o(0)  ,            
 	 m1       =>   o(1),     
 	 zout     =>   alu_out,
-	 c        => carry,
-	 z        =>  zero  );
+	 c        => carry1,
+	 z        =>  zero1  );
 
  
   end architecture behave;
