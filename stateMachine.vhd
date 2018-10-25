@@ -143,7 +143,7 @@ store: process (clk,shift,wr) is
 	end if;	
 end process store;
 
-bit1 <= data1(7);
+bit1 <= data1(0);
 
 end kahipan;
 
