@@ -190,12 +190,12 @@ end component;
 signal pc_out,t1_out,t2_out,t3_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state,nextState: std_logic_vector(4 downto 0);
-signal carry,zero,bit1,bit0,shift,rst,clk: std_logic;
+signal carry,zero,bit1,bit0,shift,rst,clk,t31: std_logic;
 
 begin
 
 clk <= clk1 and (state(4) or state(3) or state(2) or state(1) or state(0));
- 
+t31 <= t3_out(2) and t3_out(0) and t3_out(1);
  t11 :t1 
     
     port map (
@@ -342,12 +342,12 @@ port map (
 
      );
 
- state_mach:stateMachine is
+ state_mach:stateMachine 
 	port map(
 
     bit1         =>  ir_out(1),                
     bit0         =>  ir_out(0),        
-    t3          =>   t3_out,
+    t3          =>   t31,
     shift       =>   shift,
     carry       =>   carry,
     zero        =>   zero,
@@ -356,9 +356,9 @@ port map (
     nextState    =>  nextState
 );
 
- state_reg: stateReg:
+ state_reg: stateReg
  port map (
- 	clk       =>  clk,
+ 	clk       =>  clk1,
  	state       =>   state,
     nextState    =>  nextState
  );

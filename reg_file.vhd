@@ -149,7 +149,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
  begin
 	 case S is
 		when '0' =>  rf_a1 <= ir(8 downto 6);
-		when others =>  rf_a1 <= t3;
+		when others =>  rf_a1 <= t3(2 downto 0);
 	 end case;
  end process rrfa1;
 
@@ -166,7 +166,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
  begin
 	 case Q is
 		when '0' =>  rf_a3 <= ir(11 downto 9);
-		when others =>  rf_a3 <= t3;
+		when others =>  rf_a3 <= t3(2 downto 0);
 	 end case;
  end process rrfa3;
 
