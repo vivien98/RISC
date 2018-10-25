@@ -1,8 +1,12 @@
 --initialize t3 with 111
+   library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+ 
  entity microprocessor is
     
     port (
-	   clk     : in  std_logic;
+	   clk     : in  std_logic
      );
 		
   end entity ;
@@ -180,7 +184,7 @@ end component;
 signal pc_out,t1_out,t2_out,t3_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state: std_logic_vector(4 downto 0);
-signal carry,zero,bit1: std_logic;
+signal carry,zero,bit1,rst: std_logic;
 
 begin
  
@@ -190,10 +194,10 @@ begin
 	   clk        => clk,
 	   state     =>  state,
 	   rf_d1      => rf_d1,
-	   membw1     => 
-	   membw2     =>
-	   alu_out    => 
-	   t1_out     =>
+	   membr1     => membr1,
+	   membr2     => membr2,
+	   alu_out    => alu_out,
+	   t1_out     => t1_out
 
      );
 		
@@ -202,12 +206,12 @@ begin
     
     port map (
     	clk       => clk,
-	   state    =>
-	   rf_d1      =>
-	   rf_d2      =>
-	   alu_out    => 
-	   se6_out     =>
-	   t2_out     =>
+	   state    =>  state,
+	   rf_d1      =>  rf_d1,
+	   rf_d2      =>  rf_d2,
+	   alu_out    =>  alu_out,
+	   se6_out     => se6_out,
+	   t2_out     => t2_out
 
      );
 		
@@ -216,9 +220,9 @@ begin
     
     port map (
     	clk       =>  clk,
-	   state    =>
-	   alu_out    => 
-	   t3_out     =>
+	   state    =>  state,
+	   alu_out    =>  alu_out,
+	   t3_out     => t3_out
 
      );
 		
@@ -226,10 +230,10 @@ begin
     
     port map (
 		clk        => clk,
-	   state    =>
-	   alu_out      =>
-	   t2      =>
-	   pc_out     =>
+	   state       =>  state,
+	   alu_out      => alu_out,
+	   t2          =>  t2_out,
+	   pc_out     =>  pc_out
 
      );
 		
@@ -237,10 +241,10 @@ begin
   irr :ir 
     
     port map (
-	   state    =>
-	   membw1    =>
-		membw2   => 
-	   ir_out    => 
+	   state    =>  state,
+	   membr1    => membr1,
+		membr2   => membr2,
+	   ir_out    => ir_out
 
      );
 		
@@ -248,8 +252,8 @@ begin
   appp7 :app7 
     
     port  map(
-	   ir_8      =>
-	   app7_out   =>   
+	   ir_8      => ir_out(8 downto 0),
+	   app7_out   =>   app7_out
 
      );
 		
@@ -257,8 +261,8 @@ begin
   see9 :se9 
     
     port map (
-	   ir_8     =>
-	   se9_out     => 
+	   ir_8        =>  ir_out(8 downto 0),
+	   se9_out     => se9_out
 
      );
 		
@@ -266,8 +270,8 @@ begin
   see6 :se6 
     
     port map (
-	   ir_5    =>
-	   se6_out     =>
+	   ir_5        => ir_out(5 downto 0),
+	   se6_out     => se6_out
 
      );
 		
@@ -275,56 +279,58 @@ begin
  shifter :shift_wrapper 
     
     port map (
-       clk     =>  clk,
-     state    =>
-       ir       => 
-     shw_out    => 
+       clk      =>  clk,
+     state      =>  state,
+       ir       =>  ir_out,
+     shw_out    =>  bit1
 
      );
     
 
- all_reg :reg_file 
+ all_reg: reg_file_wrap
     
     port map (
-	   clk        =>  clk,
-	   rst        =>
-	   wr         =>
-	   rf_a1    =>
-	   rf_a2    =>
-	   rf_a3    =>
-	   rf_d1      =>
-	   rf_d2      =>
-	   rf_d3    =>
+	   clk        => clk,
+	   rst        => rst,
+		ir        => ir_out,
+	   t1        =>  t1_out,
+	   t3        =>  t3_out,
+	   pc        =>  pc_out,
+	   app7      =>  app7_out,
+	   state    =>  state,
+       rf_d1      => rf_d1,
+	   rf_d2     =>  rf_d2
 
      );
 		
 
-  memoryy :memory 
-    
-    port map (
-	   clk         =>  clk,
-	   mema     =>
-		--memb      : inout  std_logic_vector(7 downto 0);
-      membr1     =>
-		membr2     =>
-		membw1    =>
-		membw2    =>
-	    wr   =>
-	    );    
+memoryy: memory_wrapper 
+
+port map (
+
+	   clk        => clk,
+       membr1     => membr1,
+		 membr2   => membr2,
+       pc         => pc_out,
+       t1         => t1_out,
+	   t2         => t2_out,
+	   state      => state
+	
+);   
     
   alu_wrp: alu_wrapper
     port map (
-	    state    =>
-	    ir        =>
-		pc        =>
-		t1        =>
-		t2        =>
-		t3        =>
-		se6_out   =>
-		se9_out   =>
-	   alu_out     =>
-		carry      =>
-		zero      =>
+	    state     => state,
+	    ir        => ir_out,
+		pc        => pc_out,
+		t1        => t1_out,
+		t2        => t2_out,
+		t3        => t3_out,
+		se6_out   => se6_out,
+		se9_out   => se9_out,
+	   alu_out    => alu_out,
+		carry     => carry,
+		zero      => zero
 
      );
 		
