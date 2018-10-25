@@ -8,8 +8,8 @@ entity t1 is
 	   clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   rf_d1      : in  std_logic_vector(15 downto 0);
-	   membw1      : in  std_logic_vector(7 downto 0);
-	   membw2      : in  std_logic_vector(7 downto 0);
+	   membr1      : in  std_logic_vector(7 downto 0);
+	   membr2      : in  std_logic_vector(7 downto 0);
 	   alu_out     : in  std_logic_vector(15 downto 0);
 	   t1_out     : out  std_logic_vector(15 downto 0)
 
@@ -38,7 +38,7 @@ t1out:process(clk,t1_control)
 	 case t1_control is
 		when "00" =>  t1_out1 <= rf_d1;
 		when "01" =>  t1_out1 <= alu_out;
-		when "10" =>  t1_out1(15 downto 8) <= membw1; t1_out1(7 downto 0) <= membw2;
+		when "10" =>  t1_out1(15 downto 8) <= membr1; t1_out1(7 downto 0) <= membr2;
 		when others =>  t1_out1 <= t1_out1;
 	 end case;
  end if;
