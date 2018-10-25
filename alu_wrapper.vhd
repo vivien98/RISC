@@ -65,7 +65,7 @@ xinn:process(A)
 		when "000" =>  yin <= se9_out;
 		when "001" =>  yin <= se6_out;
 		when "010" =>  yin <= t2; 
-		when "011" =>  yin <= X"0002"; 
+		when "011" =>  yin <= X"0001"; 
 		when others =>  yin <= X"0001";
 	 end case;
  end process yinn;
