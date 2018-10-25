@@ -24,23 +24,45 @@ signal m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19,m20
 
 begin
 
+membr1 <= m0 when mema = x"0000" and wr='0' else
+		  m2 when mema = x"0001" and wr='0' else
+		  m4 when mema = x"0002" and wr='0' else
+		  m6 when mema = x"0003" and wr='0' else
+		  m8 when mema = x"0004" and wr='0' else
+		  m10 when mema = x"0005" and wr='0' else
+		  m12 when mema = x"0006" and wr='0' else
+		  m14 when mema = x"0007" and wr='0' else  	
+		  m16 when mema = x"0008" and wr='0' else
+		  m18 when mema = x"0009" and wr='0';
+
+membr2 <= m1 when mema = x"0000" and wr='0' else
+		  m3 when mema = x"0001" and wr='0' else
+		  m5 when mema = x"0002" and wr='0' else
+		  m7 when mema = x"0003" and wr='0' else
+		  m9 when mema = x"0004" and wr='0' else
+		  m11 when mema = x"0005" and wr='0' else
+		  m13 when mema = x"0006" and wr='0' else
+		  m15 when mema = x"0007" and wr='0' else  	
+		  m17 when mema = x"0008" and wr='0' else
+		  m19 when mema = x"0009" and wr='0';			  
+
  mem_access:process(wr,mema)
  begin
- 	if(wr='0') then
-		case mema is
-			when X"0000" =>  membr1 <= m0 ; membr2 <= m1;
-			when X"0001" =>  membr1 <= m2 ; membr2 <= m3;
-			when X"0002" =>  membr1 <= m4 ; membr2 <= m5;
-			when X"0003" =>  membr1 <= m6 ; membr2 <= m7;
-			when X"0004" =>  membr1 <= m8 ; membr2 <= m9;
-			when X"0005" =>  membr1 <= m10 ; membr2 <= m11;
-			when X"0006" =>  membr1 <= m12 ; membr2 <= m13;
-		   when X"0007" =>  membr1 <= m14 ; membr2 <= m15; 
-		   when X"0008" =>  membr1 <= m16 ; membr2 <= m17;
-			when X"0009" =>  membr1 <= m18 ; membr2 <= m19;
-			when others =>   membr1 <= x"00"; membr2 <= x"00";
-		end case;
-	elsif rising_edge(clk) and wr='1'then 
+ 	--if(wr='0') then
+		--case mema is
+		--	when X"0000" =>  membr1 <= m0 ; membr2 <= m1;
+		--	when X"0001" =>  membr1 <= m2 ; membr2 <= m3;
+		--	when X"0002" =>  membr1 <= m4 ; membr2 <= m5;
+		--	when X"0003" =>  membr1 <= m6 ; membr2 <= m7;
+		--	when X"0004" =>  membr1 <= m8 ; membr2 <= m9;
+		--	when X"0005" =>  membr1 <= m10 ; membr2 <= m11;
+		--	when X"0006" =>  membr1 <= m12 ; membr2 <= m13;
+		--   when X"0007" =>  membr1 <= m14 ; membr2 <= m15; 
+		--   when X"0008" =>  membr1 <= m16 ; membr2 <= m17;
+		--	when X"0009" =>  membr1 <= m18 ; membr2 <= m19;
+		--	when others =>   membr1 <= x"00"; membr2 <= x"00";
+		--end case;
+	if rising_edge(clk) and wr='1'then 
 		case mema is
 			when x"0000" =>  m0 <= membw1; m1 <= membw2;
 			when x"0001" =>  m2 <= membw1; m3 <= membw2; 
@@ -118,23 +140,33 @@ X(1)	<= ((not state(4)) and state(3) and (not state(2)) and (not state(1)) and s
 
 Y	<= (not state(4)) and state(3) and state(2) and state(1) and (not state(0)); 
 
- membb:process(Y)
- begin
-	 case Y is
-		when '0' =>  membw1 <= t2(15 downto 8); membw2 <= t2(7 downto 0);
-		when others =>  membw1 <= t1(15 downto 8); membw2 <= t1(7 downto 0);
-	 end case;
- end process membb;
+ --membb:process(Y)
+ --begin
+	-- case Y is
+	--	when '0' =>  membw1 <= t2(15 downto 8); membw2 <= t2(7 downto 0);
+	--	when others =>  membw1 <= t1(15 downto 8); membw2 <= t1(7 downto 0);
+	-- end case;
+ --end process membb;
+
+ membw1 <= t2(15 downto 8) when Y='0' else
+ 			t1(15 downto 8) when Y='1';
+
+ membw2 <= t2(7 downto 0) when Y='0' else
+ 			t1(7 downto 0) when Y='1';			
 
 
- memaa:process(X)
- begin
-	 case X is
-		when "00" =>  mema <= pc;
-		when "01" =>  mema <= t1;
-		when others =>  mema <= t2;
-	 end case;
- end process memaa;
+ --memaa:process(X)
+ --begin
+	-- case X is
+	--	when "00" =>  mema <= pc;
+	--	when "01" =>  mema <= t1;
+	--	when others =>  mema <= t2;
+	-- end case;
+ --end process memaa;
+
+ mema <= pc when X="00" else
+ 			t1 when X="01" else
+ 			t2 when X="10" or X="11";
 
 
  mem_wrap: memory
