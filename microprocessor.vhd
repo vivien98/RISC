@@ -6,7 +6,7 @@ use ieee.numeric_std.all;
  entity microprocessor is
     
     port (
-	   clk     : in  std_logic
+	   clk1     : in  std_logic
      );
 		
   end entity ;
@@ -178,15 +178,23 @@ end component;
 		
   end component ;
 
+  component stateMachine is
+	port(bit1,bit0,t3,shift,carry,zero: in std_logic;state: in std_logic_vector(4 downto 0);opcode: in std_logic_vector(3 downto 0);nextState: out std_logic_vector(4 downto 0));
+end component;
 
+component stateReg is
+	port(clk: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
+end component;
 --signals
 
 signal pc_out,t1_out,t2_out,t3_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
-signal state: std_logic_vector(4 downto 0);
-signal carry,zero,bit1,bit0,shift,rst: std_logic;
+signal state,nextState: std_logic_vector(4 downto 0);
+signal carry,zero,bit1,bit0,shift,rst,clk: std_logic;
 
 begin
+
+clk <= clk1 and (state(4) or state(3) or state(2) or state(1) or state(0));
  
  t11 :t1 
     
@@ -282,7 +290,7 @@ begin
        clk      =>  clk,
      state      =>  state,
        ir       =>  ir_out,
-     shw_out    =>  bit1
+     shw_out    =>  shift
 
      );
     
@@ -333,6 +341,27 @@ port map (
 		zero      => zero
 
      );
+
+ state_mach:stateMachine is
+	port map(
+
+    bit1         =>  ir_out(1),                
+    bit0         =>  ir_out(0),        
+    t3          =>   t3_out,
+    shift       =>   shift,
+    carry       =>   carry,
+    zero        =>   zero,
+    state       =>   state,
+    opcode       =>  ir_out(15 downto 12),
+    nextState    =>  nextState
+);
+
+ state_reg: stateReg:
+ port map (
+ 	clk       =>  clk,
+ 	state       =>   state,
+    nextState    =>  nextState
+ );
 		
 
 

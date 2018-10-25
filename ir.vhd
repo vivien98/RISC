@@ -21,7 +21,7 @@ entity ir is
 
   begin
 
-ir_control <= (not state(4)) and (not state(3)) and (not state(2)) and (not state(1)) ;
+ir_control <= (not state(4)) and (not state(3)) and (not state(2)) and (not state(1)) and state(0) ;
 ir_out <= ir_out1;
 
 irout:process(ir_control)
