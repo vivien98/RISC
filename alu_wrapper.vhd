@@ -83,7 +83,7 @@ o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12))) or
      se6_out when b = "001" else 
      t2 when b = "010" else 
      X"0001" when b = "011" else
-	  X"0001" when b = "100" or b = "101" or b = "111";
+	  X"0001" when b = "100" or b = "101" or b = "111" or b = "110";
 
  --carry11: process(carry_control)
  --begin
