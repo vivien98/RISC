@@ -11,6 +11,8 @@ architecture kahipan of stateMachine is
 begin
 SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 	case state is
+		when "00000" =>
+			nextState <= "00000";
 		when "00001" =>
 			if (opcode = "0000" or opcode = "0010") then
 				nextState <= "00010";
@@ -22,6 +24,8 @@ SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 				nextState <= "00110";
 			elsif (opcode = "1000" or opcode = "1001") then
 				nextState <= "01000";
+			elsif (opcode = "0000" and bit1 = '1' and bit0 = '1')
+				nextState <= "00000";
 			end if;
 		when "00010" =>
 			if (opcode = "0000" or opcode = "0010") then
