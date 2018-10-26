@@ -1,4 +1,4 @@
-library std;
+--library std;
 use std.standard.all;
 library ieee;
 use ieee.std_logic_1164.all;
@@ -16,7 +16,7 @@ SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 		when "00001" =>
 			if (opcode = "0000" and bit1 = '1' and bit0 = '1')then
 				nextState <= "00000";
-			elsif (opcode = "0000" or opcode = "0010") then
+			elsif (opcode = "0000" or opcode = "0010" or opcode = "1100") then
 				nextState <= "00010";
 			elsif (opcode = "0101" or opcode = "0001" or opcode = "0100") then
 				nextState <= "00101";
