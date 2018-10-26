@@ -57,6 +57,17 @@ use ieee.numeric_std.all;
 		
   end component ;
 
+  component t4 is
+
+	port(
+		clk: in std_logic;
+		pc: in std_logic_vector(15 downto 0);
+		state: in std_logic_vector(4 downto 0);
+		ir: in std_logic_vector(15 downto 0);
+		t4_out: out std_logic_vector(15 downto 0)
+		);
+	end component;
+
   component pc is
     
     port (
@@ -133,6 +144,7 @@ use ieee.numeric_std.all;
 		ir         : in  std_logic_vector(15 downto 0);
 	   t1         : in  std_logic_vector(15 downto 0);
 	   t3         : in  std_logic_vector(15 downto 0);
+		t4         : in  std_logic_vector(15 downto 0);
 	   pc         : in  std_logic_vector(15 downto 0);
 	   app7       : in  std_logic_vector(15 downto 0);
 	   state      : in  std_logic_vector(4 downto 0);
@@ -169,6 +181,7 @@ end component;
 		t1         : in  std_logic_vector(15 downto 0);
 		t2         : in  std_logic_vector(15 downto 0);
 		t3         : in  std_logic_vector(15 downto 0);
+		t4         : in  std_logic_vector(15 downto 0);
 		se6_out    : in  std_logic_vector(15 downto 0);
 		se9_out    : in  std_logic_vector(15 downto 0);
 	   alu_out     : out  std_logic_vector(15 downto 0);
@@ -188,7 +201,7 @@ component stateReg is
 end component;
 --signals
 
-signal pc_out,t1_out,t2_out,t3_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
+signal pc_out,t1_out,t2_out,t3_out,t4_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state,nextState: std_logic_vector(4 downto 0);
 signal carry,zero,bit1,bit0,shift,rst,clk,t31: std_logic;
@@ -234,6 +247,16 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
 	   t3_out     => t3_out
 
      );
+
+  t44 : t4
+
+  port map(
+  	clk => clk,
+  	pc => pc_out,
+  	state => state,
+  	ir => ir_out,
+  	t4_out => t4_out
+  	);  
 		
  pcc: pc 
     
@@ -305,6 +328,7 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
 		ir        => ir_out,
 	   t1        =>  t1_out,
 	   t3        =>  t3_out,
+		t4			=> t4_out,
 	   pc        =>  pc_out,
 	   app7      =>  app7_out,
 	   state    =>  state,
@@ -336,6 +360,7 @@ port map (
 		t1        => t1_out,
 		t2        => t2_out,
 		t3        => t3_out,
+		t4 		  => t4_out,
 		se6_out   => se6_out,
 		se9_out   => se9_out,
 	   alu_out    => alu_out,

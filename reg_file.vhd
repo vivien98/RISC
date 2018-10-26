@@ -24,7 +24,7 @@ entity reg_file is
  architecture behave of reg_file is
  
  signal r3,r4,r5,r6,r7:  std_logic_vector(15 downto 0):= (others => '0');
- signal r1:std_logic_vector(15 downto 0):= x"1111";
+ signal r1:std_logic_vector(15 downto 0):= x"1110";
  signal r2:std_logic_vector(15 downto 0):= x"0005";
  signal r0:std_logic_vector(15 downto 0) := x"1111"; 
  
@@ -115,6 +115,7 @@ use ieee.numeric_std.all;
 		ir         : in  std_logic_vector(15 downto 0);
 	   t1         : in  std_logic_vector(15 downto 0);
 	   t3         : in  std_logic_vector(15 downto 0);
+		t4				: in std_logic_vector (15 downto 0);
 	   pc         : in  std_logic_vector(15 downto 0);
 	   app7       : in  std_logic_vector(15 downto 0);
 	   state      : in  std_logic_vector(4 downto 0);
@@ -144,21 +145,21 @@ use ieee.numeric_std.all;
 		
   end component ;
 
-   signal P,Q,S,wr : std_logic;
+   signal P,Q,S,wr,branch_opcode : std_logic;
    signal R: std_logic_vector(1 downto 0);
    signal rf_a1,rf_a2,rf_a3: std_logic_vector(2 downto 0);
 	signal rf_d3: std_logic_vector(15 downto 0);
 
 begin
-
+branch_opcode <= (ir(15) and not(ir(13)) and not(ir(12))) and state(4) and (not(state(3) or state(2) or state(1) or state(0)));
 P <= (not state(4)) and (not state(3)) and (not state(2)) and state(1) and (not state(0));
 Q <= (not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0));
 S <= (not state(4)) and state(3) and state(2) and (not state(1)) and state(0);
 
-R(0) <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (not state(0))) or 
-        ((not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0)));
+R(0) <= (((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (not state(0))) or 
+        ((not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0)))) or branch_opcode;
 
-R(1) <= state(4) and (not state(3)) and (not state(2)) and state(1) and state(0); 
+R(1) <= (state(4) and (not state(3)) and (not state(2)) and state(1) and state(0)) or branch_opcode; 
 
 wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (not state(0))) or 
        ((not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0)))      or
@@ -211,10 +212,11 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
 --	 end case;
 -- end process rrfd3;
 
-  rf_d3 <= 
+  rf_d3 <=
      pc when r = "00" else 
      t1 when r = "01" else
-     app7 when r = "10" or r = "11";
+     app7 when r = "10" else
+	  t4 when r = "11";
 
  reg_wrap: reg_file
     

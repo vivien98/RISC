@@ -11,6 +11,7 @@ entity alu_wrapper is
 		t1         : in  std_logic_vector(15 downto 0);
 		t2         : in  std_logic_vector(15 downto 0);
 		t3         : in  std_logic_vector(15 downto 0);
+		t4         : in  std_logic_vector(15 downto 0);
 		se6_out    : in  std_logic_vector(15 downto 0);
 		se9_out    : in  std_logic_vector(15 downto 0);
 	   alu_out     : out  std_logic_vector(15 downto 0);
@@ -29,21 +30,23 @@ entity alu_wrapper is
 
   signal carry_control,zero_control,carry1,zero1,carry2,zero2,branch_opcode: std_logic;
   signal xin,yin: std_logic_vector(15 downto 0);
-  signal o,A: std_logic_vector(1 downto 0);
-  signal B: std_logic_vector(2 downto 0);
+  signal o: std_logic_vector(1 downto 0);
+  signal B,A: std_logic_vector(2 downto 0);
   begin
 
 zero_control <= ((not state(4)) and (not state(2)) and (not state(1)) and (not state(0))) or 
 		((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0)) ;
 
-A(1) <= (not state(3)) or (state(2) and state(0));
-A(0) <= (not state(2)) and state(1);
+A(1) <= not(branch_opcode) and ((not state(3)) or (state(2) and state(0)));
+A(0) <= not(branch_opcode) and ((not state(2)) and state(1));
+A(2) <= branch_opcode;
 
-branch_opcode <= ir(15) and not(ir(13)) and not(ir(12));
+branch_opcode <= ir(15) and not(ir(13)) and not(ir(12)) and ((not(state(4)) and state(3) and state(2) and state(1) and state(0))
+or (state(4) and not(state(3)) and not(state(2)) and not(state(1)) and state(0)));
 
 B(0) <= (state(2)) or ((not state(4)) and (not state(1)));
 B(1) <= ((not state(4)) and (not state(3))) or ((not state(4)) and (not state(1)));
-B(2) <= (not state(2)) and state(3);
+B(2) <= (not state(2)) and state(3); 
 
 carry_control <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
 
@@ -64,10 +67,11 @@ o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12)) and not(state(4)) a
 --	 end case;
 -- end process xinn;
  
- xin <= t2 when a = "00" else 
-     t3 when a = "01" else 
-     pc when a = "10" else 
-     t1 when a = "11";
+ xin <= t2 when a = "000" else 
+     t3 when a = "001" else 
+     pc when a = "010" else 
+     t1 when a = "011"else
+     t4 when a = "100";
 
 
 -- yinn:process(B)

@@ -20,7 +20,7 @@ entity t4 is
 	t4_out <= t4_out1;
 	branch_opcode_and_state <= (ir(15) and not(ir(13)) and not(ir(12))) and not(state(4)) and not(state(3)) and not(state(2))
 								 and not(state(1)) and state(0);
-	t4out: process
+	t4out: process(clk)
 	begin
  if rising_edge(clk) then
 	 case branch_opcode_and_state is
