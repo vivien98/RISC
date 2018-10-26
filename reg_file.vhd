@@ -156,7 +156,7 @@ use ieee.numeric_std.all;
 	signal rf_d3: std_logic_vector(15 downto 0);
 
 begin
-branch_opcode <= (ir(15) and not(ir(13)) and not(ir(12))) and state(4) and (not(state(3) or state(2) or state(1) or state(0)));
+branch_opcode <= ((ir(15) and (not ir(14)) and (not ir(13))) or (ir(15) and (not ir(13)) and (not ir(12)))) and state(4) and (not(state(3) or state(2) or state(1) or state(0)));
 P <= (not state(4)) and (not state(3)) and (not state(2)) and state(1) and (not state(0));
 Q <= (not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0));
 S <= (not state(4)) and state(3) and state(2) and (not state(1)) and state(0);
