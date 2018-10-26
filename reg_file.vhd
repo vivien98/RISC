@@ -26,7 +26,7 @@ entity reg_file is
  signal r3,r4,r5,r6,r7:  std_logic_vector(15 downto 0):= (others => '0');
  signal r1:std_logic_vector(15 downto 0):= x"1110";
  signal r2:std_logic_vector(15 downto 0):= x"0005";
- signal r0:std_logic_vector(15 downto 0) := x"1111"; 
+ signal r0:std_logic_vector(15 downto 0) := x"0002"; 
  
  begin
  
@@ -163,7 +163,8 @@ R(1) <= (state(4) and (not state(3)) and (not state(2)) and state(1) and state(0
 
 wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (not state(0))) or 
        ((not state(4)) and state(3) and (not state(2)) and state(1) and (not state(0)))      or
-       (state(4) and (not state(3)) and (not state(2)) and state(1) and state(0)) ;
+       (state(4) and (not state(3)) and (not state(2)) and state(1) and state(0)) or
+       (state(4) and (not state(3)) and (not state(2)) and (not state(1)) and (not state(0))) ;
 
 
 --rrfa1:process(S,ir,t3)

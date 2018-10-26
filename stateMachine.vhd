@@ -25,7 +25,7 @@ SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 			elsif (opcode = "0110" or opcode = "0111") then
 				nextState <= "00110";
 			elsif (opcode = "1000" or opcode = "1001") then
-				nextState <= "01000";
+				nextState <= "10000";
 			end if;
 		when "00010" =>
 			if (opcode = "0000" or opcode = "0010") then
@@ -66,16 +66,12 @@ SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 				nextState <= "01011";
 			end if;
 		when "01100" =>
-			if(opcode = "0110")then
-				nextState <= "01001";
-			elsif(opcode = "0111")then
-				nextState <= "01101";
-			end if;
-		when "01011" =>
-			if(t3 = '1') then
+			if((opcode = "0110" or opcode = "0111") and t3 = '1')then
 				nextState <= "00001";
-			elsif(t3 = '0') then
-				nextState <= "01100";
+			elsif(opcode = "0111" and t3 = '0')then
+				nextState <= "01101";
+			elsif(opcode = "0110" and t3 = '0')then
+				nextState <= "01001";
 			end if;
 		when "01101" =>
 			if(shift = '1') then
@@ -89,13 +85,15 @@ SM : process (state,bit1,bit0,t3,shift,carry,zero,opcode) begin
 			elsif(opcode = "1000")then
 				nextState <= "10001";
 			end if;
+		when "01010" =>
+			nextState <= "01100";
 		when "00101" =>
 			nextState <= "00011";
 		when "01000" =>
 			nextState <= "00100";
 		when "01110" =>
 			nextState <= "01011";
-		when "01010" =>
+		when "01011" =>
 			nextState <= "01100";
 		when others =>
 			nextState <= "00001";

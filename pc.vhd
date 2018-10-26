@@ -8,7 +8,8 @@ entity pc is
 		clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out      : in  std_logic_vector(15 downto 0);
-	   t2      : in  std_logic_vector(15 downto 0);
+	   --t2      : in  std_logic_vector(15 downto 0);
+	   t1      : in  std_logic_vector(15 downto 0);
 	   pc_out     : out  std_logic_vector(15 downto 0)
 
      );
@@ -34,7 +35,7 @@ pcout:process(clk,pc_control)
  if rising_edge(clk) then
 	 case pc_control is
 		when "00" =>  pc_out1 <= alu_out;
-		when "01" =>  pc_out1 <= t2;
+		when "10" =>  pc_out1 <= t1;
 		when others =>  pc_out1 <= pc_out1;
 	 end case;
 	end if;

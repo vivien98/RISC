@@ -18,8 +18,7 @@ entity t4 is
 	signal branch_opcode_and_state: std_logic;
 	begin
 	t4_out <= t4_out1;
-	branch_opcode_and_state <= (ir(15) and not(ir(13)) and not(ir(12))) and not(state(4)) and not(state(3)) and not(state(2))
-								 and not(state(1)) and state(0);
+	branch_opcode_and_state <= ((ir(15) and (not ir(14)) and (not ir(13))) or (ir(15) and (not ir(13)) and (not ir(12)))) and (not state(4)) and (not state(3)) and (not state(2)) and (not state(1)) and state(0);
 	t4out: process(clk)
 	begin
  if rising_edge(clk) then
@@ -87,7 +86,7 @@ use ieee.numeric_std.all;
   entity t2 is
     
     port (
-    	clk        : in   std_logic;
+    	clk,shift        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   rf_d1      : in  std_logic_vector(15 downto 0);
 	   rf_d2      : in  std_logic_vector(15 downto 0);
@@ -107,7 +106,7 @@ use ieee.numeric_std.all;
   begin
 
   t2_control(0) <= ((not state(2))) or (state(1)) or 
-                    (state(0) and state(3)) or (not(state(0)) and not(state(3)));
+                    (state(0) and state(3)) or (not(state(0)) and not(state(3))) or (not shift);
 			  
   t2_control(1) <= (state(3)) or (state(4)) or 
                    ((not state(1)) and (not state(2))) or ((not state(1)) and (not state(0))) or (state(0) and state(1));
@@ -151,7 +150,7 @@ entity t3 is
   architecture behave of t3 is
 
   signal t3_control: std_logic;
-  signal t3_out1: std_logic_vector(15 downto 0);
+  signal t3_out1: std_logic_vector(15 downto 0) := x"0007";
 
   begin
 

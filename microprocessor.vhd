@@ -32,7 +32,7 @@ use ieee.numeric_std.all;
  component t2 is
     
     port (
-    	clk        : in   std_logic;
+    	clk,shift        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   rf_d1      : in  std_logic_vector(15 downto 0);
 	   rf_d2      : in  std_logic_vector(15 downto 0);
@@ -74,7 +74,7 @@ use ieee.numeric_std.all;
 		clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out      : in  std_logic_vector(15 downto 0);
-	   t2      : in  std_logic_vector(15 downto 0);
+	   t1      : in  std_logic_vector(15 downto 0);
 	   pc_out     : out  std_logic_vector(15 downto 0)
 
      );
@@ -228,6 +228,7 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
     
     port map (
     	clk       => clk,
+    	shift	=> shift,
 	   state    =>  state,
 	   rf_d1      =>  rf_d1,
 	   rf_d2      =>  rf_d2,
@@ -264,7 +265,7 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
 		clk        => clk,
 	   state       =>  state,
 	   alu_out      => alu_out,
-	   t2          =>  t2_out,
+	   t1          =>  t1_out,
 	   pc_out     =>  pc_out
 
      );
