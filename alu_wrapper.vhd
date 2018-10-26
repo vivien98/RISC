@@ -27,7 +27,7 @@ entity alu_wrapper is
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 
-  signal carry_control,zero_control,carry1,zero1,carry2,zero2: std_logic;
+  signal carry_control,zero_control,carry1,zero1,carry2,zero2,branch_opcode: std_logic;
   signal xin,yin: std_logic_vector(15 downto 0);
   signal o,A: std_logic_vector(1 downto 0);
   signal B: std_logic_vector(2 downto 0);
@@ -38,6 +38,8 @@ zero_control <= ((not state(4)) and (not state(2)) and (not state(1)) and (not s
 
 A(1) <= (not state(3)) or (state(2) and state(0));
 A(0) <= (not state(2)) and state(1);
+
+branch_opcode <= ir(15) and not(ir(13)) and not(ir(12));
 
 B(0) <= (state(2)) or ((not state(4)) and (not state(1)));
 B(1) <= ((not state(4)) and (not state(3))) or ((not state(4)) and (not state(1)));
@@ -83,7 +85,8 @@ o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12)) and not(state(4)) a
      se6_out when b = "001" else 
      t2 when b = "010" else 
      X"0001" when b = "011" else
-	  X"0001" when b = "100" or b = "101" or b = "111" or b = "110";
+	  X"0001" when b = "100" else
+	  X"0000"  when b = "101" or b = "111" or b = "110";
 
  --carry11: process(carry_control)
  --begin

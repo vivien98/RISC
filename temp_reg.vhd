@@ -2,6 +2,39 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+entity t4 is
+
+	port(
+		clk: in std_logic;
+		pc: in std_logic_vector(15 downto 0);
+		state: in std_logic_vector(4 downto 0);
+		ir: in std_logic_vector(15 downto 0);
+		t4_out: out std_logic_vector(15 downto 0)
+		);
+	end entity;
+	
+	architecture behave of t4 is
+	signal t4_out1: std_logic_vector(15 downto 0);
+	signal branch_opcode_and_state: std_logic;
+	begin
+	t4_out <= t4_out1;
+	branch_opcode_and_state <= (ir(15) and not(ir(13)) and not(ir(12))) and not(state(4)) and not(state(3)) and not(state(2))
+								 and not(state(1)) and state(0);
+	t4out: process
+	begin
+ if rising_edge(clk) then
+	 case branch_opcode_and_state is
+		when '1' =>  t4_out1 <= pc;
+		when others =>  t4_out1 <= t4_out1;
+	 end case;
+ end if;
+ end process t4out;	
+	end behave;
+	
+	library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 entity t1 is
     
     port (
