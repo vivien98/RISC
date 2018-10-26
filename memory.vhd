@@ -52,7 +52,7 @@ membr2 <= m1 when mema = x"0000" and wr='0' else
 		  m17 when mema = x"0008" and wr='0' else
 		  m19 when mema = x"0009" and wr='0';			  
 
- mem_access:process(wr,mema)
+ mem_access:process(wr,mema,clk)
  begin
  	--if(wr='0') then
 		--case mema is
@@ -139,7 +139,7 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and state(1) and state(0))
       ((not state(4)) and state(3) and state(2) and state(1) and (not state(0)));
 
 X(0) <= ((not state(4)) and state(3) and (not state(2)) and (not state(1)) and (not state(0))) or
-      ((not state(4)) and (not state(3)) and state(2) and state(1) and (not state(0)));
+      ((not state(4)) and (not state(3)) and state(2) and state(1) and state(0));
 
 X(1)	<= ((not state(4)) and state(3) and (not state(2)) and (not state(1)) and state(0)) or
       ((not state(4)) and state(3) and state(2) and state(1) and (not state(0)));

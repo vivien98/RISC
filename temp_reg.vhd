@@ -73,8 +73,8 @@ use ieee.numeric_std.all;
 
   begin
 
-  t2_control(0) <= ((not state(2))) or (state(0) and state(1)) or 
-                    (state(0) and state(3)) or (state(3) and state(1)) or ((not state(1)) and (not state(3)) and (not state(0)));
+  t2_control(0) <= ((not state(2))) or (state(1)) or 
+                    (state(0) and state(3)) or (not(state(0)) and not(state(3)));
 			  
   t2_control(1) <= (state(3)) or (state(4)) or 
                    ((not state(1)) and (not state(2))) or ((not state(1)) and (not state(0))) or (state(0) and state(1));
