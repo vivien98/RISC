@@ -46,7 +46,7 @@ B(2) <= (not state(2)) and state(3);
 carry_control <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
 
 o(1) <= ((not ir(15)) and (not ir(14)) and ir(13) and (not ir(12)));
-o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12))) or 
+o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12)) and not(state(4)) and not(state(3)) and not(state(2)) and state(1) and state(0)) or 
         ((not (ir(15) and ir(14) and (not ir(13)) and (not ir(12)))) and (not state(2)) and state(3));
 
  carry <= carry2;

@@ -23,9 +23,10 @@ entity reg_file is
   
  architecture behave of reg_file is
  
- signal r0,r3,r4,r5,r6,r7:  std_logic_vector(15 downto 0):= (others => '0');
+ signal r3,r4,r5,r6,r7:  std_logic_vector(15 downto 0):= (others => '0');
  signal r1:std_logic_vector(15 downto 0):= x"1111";
  signal r2:std_logic_vector(15 downto 0):= x"0005";
+ signal r0:std_logic_vector(15 downto 0) := x"1111"; 
  
  begin
  

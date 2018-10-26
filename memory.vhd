@@ -21,10 +21,12 @@ entity memory is
 
 architecture behave of memory is
 signal m4,m5,m6,m7,m8,m9,m10,m11,m12,m13,m14,m15,m16,m17,m18,m19,m20,m21:  std_logic_vector(7 downto 0):= (others => '0');
-signal m0 :std_logic_vector(7 downto 0) :=  "01010010";
-signal m1 :std_logic_vector(7 downto 0) :=  "10000011";
---signal m2 :std_logic_vector(7 downto 0) :=  "00000000";
---signal m3 :std_logic_vector(7 downto 0) :=  "01010010";
+--signal m0 :std_logic_vector(7 downto 0) :=  "01010010"; --sw
+--signal m1 :std_logic_vector(7 downto 0) :=  "10000011";--sw
+--signal m2 :std_logic_vector(7 downto 0) :=  "00000000";--adc
+--signal m3 :std_logic_vector(7 downto 0) :=  "01010010";--adc
+signal m0 :std_logic_vector (7downto 0) := "11000000";
+signal m1:std_logic_vector (7 downto 0) := "01000011";
 signal m2 :std_logic_vector(7 downto 0) :=  "00000000";
 signal m3 :std_logic_vector(7 downto 0) :=  "00000011";
 
