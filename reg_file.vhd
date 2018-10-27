@@ -14,7 +14,8 @@ entity reg_file is
 	   rf_a3      : in  std_logic_vector(2 downto 0);
 	   rf_d1      : out  std_logic_vector(15 downto 0);
 	   rf_d2      : out  std_logic_vector(15 downto 0);
-	   rf_d3      : in  std_logic_vector(15 downto 0)
+	   rf_d3      : in  std_logic_vector(15 downto 0);
+	   Reg7		  : in std_logic_vector(15 downto 0)
 
      );
 		
@@ -102,6 +103,8 @@ entity reg_file is
 				when "110" =>  r6 <= rf_d3;
 				when others =>  r7 <= rf_d3;
 			end case;
+		elsif(wr = '0')then
+			r7 <= Reg7;
 		end if;
 	end if;
 end process writing;
@@ -125,8 +128,8 @@ use ieee.numeric_std.all;
 	   app7       : in  std_logic_vector(15 downto 0);
 	   state      : in  std_logic_vector(4 downto 0);
        rf_d1      : out  std_logic_vector(15 downto 0);
-	   rf_d2      : out  std_logic_vector(15 downto 0)
-
+	   rf_d2      : out  std_logic_vector(15 downto 0);
+		R7 : in std_logic_vector(15 downto 0)
      );
 		
   end entity ;
@@ -144,8 +147,8 @@ use ieee.numeric_std.all;
 	   rf_a3      : in  std_logic_vector(2 downto 0);
 	   rf_d1      : out  std_logic_vector(15 downto 0);
 	   rf_d2      : out  std_logic_vector(15 downto 0);
-	   rf_d3      : in  std_logic_vector(15 downto 0)
-
+	   rf_d3      : in  std_logic_vector(15 downto 0);
+		Reg7 : in std_logic_vector(15 downto 0)
      );
 		
   end component ;
@@ -235,8 +238,8 @@ wr <= ((not state(4)) and (not state(3)) and state(2) and (not state(1)) and (no
 	   rf_a3      => rf_a3,
 	   rf_d1      => rf_d1,
 	   rf_d2      => rf_d2,
-	   rf_d3      => rf_d3
-
+	   rf_d3      => rf_d3,
+	   Reg7 => R7
      );
 		
 

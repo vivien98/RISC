@@ -149,8 +149,8 @@ use ieee.numeric_std.all;
 	   app7       : in  std_logic_vector(15 downto 0);
 	   state      : in  std_logic_vector(4 downto 0);
        rf_d1      : out  std_logic_vector(15 downto 0);
-	   rf_d2      : out  std_logic_vector(15 downto 0)
-
+	   rf_d2      : out  std_logic_vector(15 downto 0);
+		R7		  : in std_logic_vector(15 downto 0)
      );
 		
   end component ;
@@ -334,8 +334,8 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
 	   app7      =>  app7_out,
 	   state    =>  state,
        rf_d1      => rf_d1,
-	   rf_d2     =>  rf_d2
-
+	   rf_d2     =>  rf_d2,
+		R7 		=> pc_out
      );
 		
 
