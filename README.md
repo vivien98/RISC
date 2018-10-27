@@ -1,9 +1,10 @@
-#RISC
+Team: 
+Puneet Nemade-16D070003,
+Harsh Deshpande-16D070011,
+Viraj Nadkarni-16D070013,
+Navoj Ramesh-16D070059
 
-<<<<<<< HEAD
-edited by puneet
-=======
-edited by champak
+Main entity name: microprocessor in file microprocessor.vhd
 
 
->>>>>>> 3183460df2077ed0932a6ad3922de41f2ba0a4d5
+
