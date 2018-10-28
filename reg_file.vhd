@@ -95,12 +95,19 @@ entity reg_file is
 		if (wr ='1') then 
 			case rf_a3 is
 				when "000" =>  r0 <= rf_d3;
+				r7 <= Reg7;
 				when "001" =>  r1 <= rf_d3;
+				r7 <= Reg7;
 				when "010" =>  r2 <= rf_d3;
+				r7 <= Reg7;
 				when "011" =>  r3 <= rf_d3;
+				r7 <= Reg7;
 				when "100" =>  r4 <= rf_d3;
+				r7 <= Reg7;
 				when "101" =>  r5 <= rf_d3;
+				r7 <= Reg7;
 				when "110" =>  r6 <= rf_d3;
+				r7 <= Reg7;
 				when others =>  r7 <= rf_d3;
 			end case;
 		elsif(wr = '0')then
