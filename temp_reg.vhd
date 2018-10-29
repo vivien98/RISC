@@ -141,7 +141,8 @@ entity t3 is
     	clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out     : in  std_logic_vector(15 downto 0);
-	   t3_out     : out  std_logic_vector(15 downto 0)
+	   t3_out     : out  std_logic_vector(15 downto 0);
+	   rst		: in std_logic
 
      );
 		
@@ -150,16 +151,18 @@ entity t3 is
   architecture behave of t3 is
 
   signal t3_control: std_logic;
-  signal t3_out1: std_logic_vector(15 downto 0) := x"0007";
+  signal t3_out1: std_logic_vector(15 downto 0) := x"0000";
 
   begin
 
 t3_control <= state(3) and (not state(2)) and state(1) ;
 t3_out <= t3_out1;
 
-t3out:process(clk,t3_control)
+t3out:process(rst,clk,t3_control)
  begin
- if rising_edge(clk) then
+ if rst = '1' then
+ 	t3_out1 <= x"0000";
+ elsif rising_edge(clk) then
 	 case t3_control is
 		when '1' =>  t3_out1 <= alu_out;
 		when others =>  t3_out1 <= t3_out1;

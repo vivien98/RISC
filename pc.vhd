@@ -10,8 +10,8 @@ entity pc is
 	   alu_out      : in  std_logic_vector(15 downto 0);
 	   --t2      : in  std_logic_vector(15 downto 0);
 	   t1      : in  std_logic_vector(15 downto 0);
-	   pc_out     : out  std_logic_vector(15 downto 0)
-
+	   pc_out     : out  std_logic_vector(15 downto 0);
+		rst		: in std_logic
      );
 		
   end entity ;
@@ -30,9 +30,11 @@ entity pc is
   
 pc_out <= pc_out1;
 
-pcout:process(clk,pc_control)
+pcout:process(rst,clk,pc_control)
  begin
- if rising_edge(clk) then
+ if rst = '1' then
+ 	pc_out1 <= x"0000";
+ elsif rising_edge(clk) then
 	 case pc_control is
 		when "00" =>  pc_out1 <= alu_out;
 		when "10" =>  pc_out1 <= t1;

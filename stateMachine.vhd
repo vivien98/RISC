@@ -107,15 +107,16 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity stateReg is
-	port(clk: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
+	port(clk,rst: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
 end entity;
 architecture kahipan of stateReg is
 signal state1:std_logic_vector(4 downto 0):= "00001";
 begin
 
-load: process (clk,nextState) begin
-
-	if(rising_edge(clk))then
+load: process (rst,clk,nextState) begin
+	if rst='1' then
+		state1 <= "00001";
+	elsif(rising_edge(clk))then
 		state1 <= nextState;
 	end if;
 end process load;

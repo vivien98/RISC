@@ -6,7 +6,8 @@ use ieee.numeric_std.all;
  entity microprocessor is
     
     port (
-	   clk1     : in  std_logic
+	   clk1     : in  std_logic;
+	   rst		: in std_logic
      );
 		
   end entity ;
@@ -51,8 +52,8 @@ use ieee.numeric_std.all;
     	clk        : in   std_logic;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out     : in  std_logic_vector(15 downto 0);
-	   t3_out     : out  std_logic_vector(15 downto 0)
-
+	   t3_out     : out  std_logic_vector(15 downto 0);
+		rst			: in std_logic
      );
 		
   end component ;
@@ -75,8 +76,8 @@ use ieee.numeric_std.all;
 	   state     : in  std_logic_vector(4 downto 0);
 	   alu_out      : in  std_logic_vector(15 downto 0);
 	   t1      : in  std_logic_vector(15 downto 0);
-	   pc_out     : out  std_logic_vector(15 downto 0)
-
+	   pc_out     : out  std_logic_vector(15 downto 0);
+		rst			: in std_logic
      );
 		
   end component ;
@@ -197,19 +198,20 @@ end component;
 end component;
 
 component stateReg is
-	port(clk: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
+	port(clk,rst: in std_logic ;nextState : in std_logic_vector(4 downto 0);state : out std_logic_vector(4 downto 0));
 end component;
 --signals
 
 signal pc_out,t1_out,t2_out,t3_out,t4_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state,nextState: std_logic_vector(4 downto 0);
-signal carry,zero,bit1,bit0,shift,rst,clk,t31: std_logic;
+signal carry,zero,bit1,bit0,shift,clk,t31: std_logic;
 
 begin
 
 clk <= clk1 and (state(4) or state(3) or state(2) or state(1) or state(0));
-t31 <= t3_out(2) and t3_out(0) and t3_out(1);
+t31 <= (not t3_out(2)) and (not t3_out(0)) and (not t3_out(1));
+
  t11 :t1 
     
     port map (
@@ -245,8 +247,8 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
     	clk       =>  clk,
 	   state    =>  state,
 	   alu_out    =>  alu_out,
-	   t3_out     => t3_out
-
+	   t3_out     => t3_out,
+		rst		=> rst
      );
 
   t44 : t4
@@ -266,8 +268,8 @@ t31 <= t3_out(2) and t3_out(0) and t3_out(1);
 	   state       =>  state,
 	   alu_out      => alu_out,
 	   t1          =>  t1_out,
-	   pc_out     =>  pc_out
-
+	   pc_out     =>  pc_out,
+		rst 	=> rst
      );
 		
 
@@ -387,6 +389,7 @@ port map (
  state_reg: stateReg
  port map (
  	clk       =>  clk1,
+ 	rst		=> rst,
  	state       =>   state,
     nextState    =>  nextState
  );
