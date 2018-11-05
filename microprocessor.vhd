@@ -7,7 +7,10 @@ use ieee.numeric_std.all;
     
     port (
 	   clk1     : in  std_logic;
-	   rst		: in std_logic
+	   rst		: in std_logic;
+		stateOut	: out std_logic_vector(4 downto 0);
+		o1,o2,o3,o4,o5,o6,o7,o8 : out std_logic_vector(15 downto 0) 
+		
      );
 		
   end entity ;
@@ -208,6 +211,19 @@ signal state,nextState: std_logic_vector(4 downto 0);
 signal carry,zero,bit1,bit0,shift,clk,t31: std_logic;
 
 begin
+stateOut <= state;
+o1 <= pc_out;
+o2 <= rf_d1;
+o3 <= rf_d2;
+o4 <= t1_out;
+o5 <= t2_out;
+o6(7 downto 0) <= membr1;
+o6(15 downto 8) <= membr2;
+o7 <= ir_out;
+o8(0) <= carry;
+o8(1) <= zero;
+o8(2) <= shift;
+
 
 clk <= clk1 and (state(4) or state(3) or state(2) or state(1) or state(0));
 t31 <= (not t3_out(2)) and (not t3_out(0)) and (not t3_out(1));
