@@ -6,8 +6,9 @@ use ieee.numeric_std.all;
  entity microprocessor is
     
     port (
+		clk50		: in std_logic;
 	   clk1     : in  std_logic;
-	   rst		: in std_logic;
+	   rsto		: in std_logic;
 		stateOut	: out std_logic_vector(4 downto 0);
 		o1,o2,o3,o4,o5,o6,o7,o8 : out std_logic_vector(15 downto 0) 
 		
@@ -208,9 +209,10 @@ end component;
 signal pc_out,t1_out,t2_out,t3_out,t4_out,alu_out,ir_out,app7_out,se6_out,se9_out,rf_d1,rf_d2: std_logic_vector(15 downto 0);
 signal membr1,membr2 : std_logic_vector(7 downto 0);
 signal state,nextState: std_logic_vector(4 downto 0);
-signal carry,zero,bit1,bit0,shift,clk,t31: std_logic;
+signal carry,zero,bit1,bit0,shift,clk,t31,rst: std_logic;
 
 begin
+rst <= rsto;
 stateOut <= state;
 o1 <= pc_out;
 o2 <= rf_d1;
