@@ -28,7 +28,7 @@ entity alu_wrapper is
   	port (xin,yin: in std_logic_vector(15 downto 0);m0,m1: in std_logic;zout: out std_logic_vector(15 downto 0);c,z : out std_logic);
   end component;
 
-  signal carry_control,zero_control,carry1,zero1,carry2,zero2,branch_opcode: std_logic;
+  signal carry_control,zero_control,carry1,zero1,carry2,zero2,branch_opcode,is_s1: std_logic;
   signal xin,yin: std_logic_vector(15 downto 0);
   signal o: std_logic_vector(1 downto 0);
   signal B,A: std_logic_vector(2 downto 0);
@@ -50,7 +50,9 @@ B(2) <= (not state(2)) and state(3);
 
 carry_control <= ((not ir(15)) and (not ir(14)) and (not ir(13))) and ((not state(4)) and (not state(3)) and (not state(2)) and state(1) and state(0));
 
-o(1) <= ((not ir(15)) and (not ir(14)) and ir(13) and (not ir(12)));
+is_s1 <= (not(state(4))) and (not(state(3))) and (not(state(2))) and (not(state(1))) and (state(0));
+
+o(1) <= ((not ir(15)) and (not ir(14)) and ir(13) and (not ir(12))) and (not(is_s1));
 o(0) <= (ir(15) and ir(14) and (not ir(13)) and (not ir(12)) and not(state(4)) and not(state(3)) and not(state(2)) and state(1) and state(0)) or 
         ((not (ir(15) and ir(14) and (not ir(13)) and (not ir(12)))) and (not state(2)) and state(3));
 
